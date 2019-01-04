@@ -1,0 +1,16 @@
+{
+  "name": "bunny.slack",
+  "version": "1.0.0",
+  "description": "bunnyslack",
+  "main": "injector.js",
+  "scripts": {
+    "start": "node injector.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "me",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "slackbots": "^1.2.0"
+  }
+}
