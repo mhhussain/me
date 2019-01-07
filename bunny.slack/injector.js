@@ -20,14 +20,12 @@ slacki.on('start', () => {
         slacki.postMessageToGroup('heart_dev', 'thump');
     });
 
-    heart.createEvent(1, (count, last) => {
-        let postmessage = (msg) => {
-            slacki.postMessageToUser('moohh91', msg)
-        };
+    let postmessage = (msg) => {
+        slacki.postMessageToUser('moohh91', msg)
+    };
 
-        let capillary = new artery(secrets.artery);
-        capillary.let(postmessage);
-    });
+    let capillary = new artery(secrets.artery);
+    capillary.let(postmessage);
 });
 
 slacki.on('message', (message) => {
