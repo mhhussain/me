@@ -1,0 +1,15 @@
+{
+  "name": "bunny.bear",
+  "version": "1.0.0",
+  "description": "me",
+  "main": "junction.js",
+  "scripts": {
+    "start": "node junction.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "me",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.5.3"
+  }
+}
