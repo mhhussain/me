@@ -1,4 +1,5 @@
 let bunnyslack = require('./bunnyslack');
+let heartbeats = require('heartbeats');
 let vein = require('../bunny.circulation/vein');
 let artery = require('../bunny.circulation/artery');
 
@@ -10,9 +11,23 @@ let slacki = new bunnyslack({
     name: 'bunnybear'
 });
 
+let heart = new heartbeats.createHeart(Math.ceil(60.0 / 1000.0));
+
 slacki.on('start', () => {
     // new wake(slacki);
     console.log('im awake.');
+    heart.createEvent(60, (count, last) => {
+        slacki.postMessageToGroup('heart_dev', 'thump');
+    });
+
+    heart.createEvent(1, (count, last) => {
+        let postmessage = (msg) => {
+            slacki.postMessageToUser('moohh91', msg)
+        };
+
+        let capillary = new artery(secrets.artery);
+        capillary.let(postmessage);
+    });
 });
 
 slacki.on('message', (message) => {
@@ -25,7 +40,10 @@ slacki.on('message', (message) => {
         return;
     }
 
-    if (message.text === 'push') {
+    let needle = new vein(secrets.vein);
+    needle.inject(message);
+
+    /*if (message.text === 'push') {
         let needle = new vein(secrets.vein);
         needle.inject(message);
     }
@@ -40,7 +58,7 @@ slacki.on('message', (message) => {
 
         let info = letting.let(postmessage);
         //slacki.postMessageToUser('moohh91', info);
-    }
+    }*/
 
     //console.log(message);
 });
