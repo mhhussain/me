@@ -7,6 +7,7 @@ function vein(name) {
 }
 
 vein.prototype.inject = function(information) {
+    // console.log(information);
     pipes.connect(this.amqp_url, (err, conn) => {
         conn.createChannel((err, ch) => {
             let q = this.name;

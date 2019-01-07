@@ -7,13 +7,13 @@ function artery(name) {
 }
 
 artery.prototype.let = function(callback) {
+    // console.log(this.name);
     pipes.connect(this.amqp_url, (err, conn) => {
         conn.createChannel((err, ch) => {
             let q = this.name;
 
             ch.assertQueue(q, {durable: true});
             ch.consume(q, (msg) => {
-                console.log(msg.content.toString());
                 callback(msg.content.toString());
             }, {noAck: true});
         });

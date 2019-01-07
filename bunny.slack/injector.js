@@ -11,7 +11,7 @@ let slacki = new bunnyslack({
     name: 'bunnybear'
 });
 
-let heart = new heartbeats.createHeart(Math.ceil(60.0 / 1000.0));
+let heart = new heartbeats.createHeart(1000);
 
 slacki.on('start', () => {
     // new wake(slacki);
@@ -42,23 +42,4 @@ slacki.on('message', (message) => {
 
     let needle = new vein(secrets.vein);
     needle.inject(message);
-
-    /*if (message.text === 'push') {
-        let needle = new vein(secrets.vein);
-        needle.inject(message);
-    }
-
-    if (message.text === 'pull')
-    {
-
-        let letting = new artery(secrets.artery);
-        let postmessage = (msg) => {
-            slacki.postMessageToUser('moohh91', msg);
-        };
-
-        let info = letting.let(postmessage);
-        //slacki.postMessageToUser('moohh91', info);
-    }*/
-
-    //console.log(message);
 });
