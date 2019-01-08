@@ -1,16 +1,24 @@
 let pipes = require('amqplib/callback_api');
 
+let vein = require('../bunny.circulation/vein');
+let tracks = require('./tracks');
 let secrets = require('./secrets');
 
-let url = 'amqp://localhost';
 
 let handle = (msg) => {
-    console.log(msg);
+
+    let needle = new vein(tracks.slack.in);
+    
+    if (msg === 'hello world') {
+        needle.inject('the world says hello back');
+    } else {
+        needle.inject('lorem ipsum');
+    }
 };
 
-pipes.connect(url, (err, conn) => {
+pipes.connect(secrets.amq_url, (err, conn) => {
     conn.createChannel((err, ch) => {
-        let q = secrets.slack.bleed;
+        let q = tracks.slack.out;
 
         ch.assertQueue(q, {durable: true});
         ch.consume(q, (msg) => {

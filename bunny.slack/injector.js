@@ -39,5 +39,5 @@ slacki.on('message', (message) => {
     }
 
     let needle = new vein(secrets.vein);
-    needle.inject(message);
+    needle.inject(message.text);
 });

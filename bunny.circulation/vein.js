@@ -13,7 +13,7 @@ vein.prototype.inject = function(information) {
             let q = this.name;
 
             ch.assertQueue(q, {durable: true});
-            ch.sendToQueue(q, new Buffer(information.text), {persistent: true});
+            ch.sendToQueue(q, new Buffer(information), {persistent: true});
         });
     });
 };
