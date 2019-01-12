@@ -49,7 +49,7 @@ let heartbeat_directive = () => {
     };
 };
 
-let handle = (msg) => {
+/*let handle = (msg) => {
 
     let needle = new vein(tracks.slack.in);
     
@@ -58,6 +58,6 @@ let handle = (msg) => {
     } else {
         needle.inject('lorem ipsum');
     }
-};
+};*/
 
 wake();
