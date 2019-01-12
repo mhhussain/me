@@ -3,7 +3,7 @@ let secrets = require('./secrets');
 
 function artery(name) {
     this.name = name;
-    this.amqp_url = 'amqp://localhost';
+    this.amqp_url = secrets.url;
 }
 
 artery.prototype.let = function(callback) {
