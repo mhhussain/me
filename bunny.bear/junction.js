@@ -1,8 +1,7 @@
-let pipes = require('amqplib/callback_api');
 let heartbeats = require('heartbeats');
 
-let vein = require('../bunny.circulation/vein');
 let aorta = require('../bunny.circulation/aorta');
+let venacava = require('../bunny.circulation/venacava');
 let tracks = require('./tracks');
 let secrets = require('./secrets');
 

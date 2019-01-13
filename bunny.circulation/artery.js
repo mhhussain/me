@@ -6,7 +6,7 @@ function artery(name) {
     this.name = name;
     this.amqp_url = secrets.amqp.url;
     this.auth = secrets.amqp.auth;
-}
+};
 
 artery.prototype.let = function(callback) {
     // console.log(this.name);
