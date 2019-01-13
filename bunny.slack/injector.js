@@ -7,6 +7,12 @@ let secrets = require('./secrets');
 
 let initiate = () => {
 
+    let slacki = new bunnyslack({
+        token: secrets.bot,
+        wptoken: secrets.ws,
+        name: 'bunnybear'
+    });
+
     slacki.on('start', () => {
         // new wake(slacki);
         /*console.log('im awake.');
@@ -40,9 +46,8 @@ let initiate = () => {
         capillary.let(handle);
     });
     
-    // can only listen
-    // for now
-    /*slacki.on('message', (message) => {
+    // speak
+    slacki.on('message', (message) => {
     
         
         if (message.user != 'UC72G0ATD') {
@@ -55,16 +60,9 @@ let initiate = () => {
     
         let needle = new vein(secrets.vein);
         needle.inject(message.text);
-        
-    });*/
+    });
 
     console.log('listening');
 };
-
-let slacki = new bunnyslack({
-    token: secrets.bot,
-    wptoken: secrets.ws,
-    name: 'bunnybear'
-});
 
 initiate();

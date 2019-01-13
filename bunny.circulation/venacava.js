@@ -2,15 +2,14 @@ let pipes = require('amqplib/callback_api');
 
 let secrets = require('./secrets');
 
-function artery(name) {
+function venacava(name) {
     this.name = name;
-    this.amqp_url = secrets.amqp.url;
+    this.ampq_url = secrets.amqp.url;
     this.auth = secrets.amqp.auth;
-}
+};
 
-artery.prototype.let = function(callback) {
-    // console.log(this.name);
-    pipes.connect(this.amqp_url, {auth: this.auth}, (err, conn) => {
+venacava.prototype.drain = function(callback) {
+    pipes.connect(this.ampq_url, {auth: this.auth}, (err, conn) => {
         conn.createChannel((err, ch) => {
             let q = this.name;
 
@@ -22,4 +21,4 @@ artery.prototype.let = function(callback) {
     });
 };
 
-module.exports = artery;
+module.exports = venacava;

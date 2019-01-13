@@ -11,6 +11,7 @@ let wake = () => {
     // heart
     let heart = new heartbeats.createHeart(1000);
     let systole = new aorta();
+    let diastole = new venacava();
     
     // wake
     console.log('im awake');
@@ -18,14 +19,28 @@ let wake = () => {
 
     // heartbeat
     console.log('clear');
-    heart.createEvent(5, (count, last) => {
+    heart.createEvent(60, (count, last) => {
         systole.pump(heartbeat_directive());
     });
+
+    // speak
+    console.log('listen');
+    let respond = (msg) => {
+        if (msg === 'hello world') {
+            systole.pump(var_message_directive('the world says hello back'));
+        }
+        else {
+            systole.pump(var_message_directive('lorem ipsum'));
+        }
+    };
+    diastole.drain(respond);
+
+    return;
 };
 
 let wake_directive = () => {
     return {
-        name: 'bunnyslack_in',
+        name: 'bunnyslack_artery',
         designator: 'bunnybear',
         designee: 'bunnyslack',
         directive: {
@@ -38,7 +53,7 @@ let wake_directive = () => {
 
 let heartbeat_directive = () => {
     return {
-        name: 'bunnyslack_in',
+        name: 'bunnyslack_artery',
         designator: 'bunnybear',
         designee: 'bunnyslack',
         directive: {
@@ -49,15 +64,17 @@ let heartbeat_directive = () => {
     };
 };
 
-/*let handle = (msg) => {
-
-    let needle = new vein(tracks.slack.in);
-    
-    if (msg === 'hello world') {
-        needle.inject('the world says hello back');
-    } else {
-        needle.inject('lorem ipsum');
-    }
-};*/
+let var_message_directive = (msg) => {
+    return {
+        name: 'bunnyslack_artery',
+        designator: 'bunnybear',
+        disignee: 'bunnyslack',
+        directive: {
+            type: 'method',
+            signature: 'postMessageToUser',
+            inputs: ['moohh91', msg]
+        }
+    };
+};
 
 wake();
