@@ -11,7 +11,7 @@ let wake = () => {
     // heart
     let heart = new heartbeats.createHeart(1000);
     let systole = new aorta();
-    let diastole = new venacava();
+    let diastole = new venacava('bunnyslack_vein');
     
     // wake
     console.log('im awake');
