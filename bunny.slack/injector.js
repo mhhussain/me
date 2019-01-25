@@ -5,7 +5,47 @@ let artery = require('../bunny.circulation/artery');
 
 let secrets = require('./secrets');
 
-let initiate = () => {
+let begin = () => {
+
+    // send begin request
+    let requestheartstrings = () => {
+        return {
+            request: 'ping',
+            name: 'bunnyslack'
+        };
+    };
+    let needle = new vein(secrets.venacava);
+    needle.inject(JSON.stringify(requestheartstrings()));
+
+    // listen for ping
+    let listenforping = (err, ch) => {
+        let q = secrets.artery;
+
+        ch.assertQueue(q, {durable: true});
+        ch.consume(q, (msg) => {
+            let blood = JSON.parse(msg.content.toString());
+
+            if (blood.directive.type === 'ping') {
+
+                initiateslack();
+                let needle = new vein(secrets.vein);
+                needle.inject('pong');
+
+                ch.close();
+            }
+        }, {noAck: true});
+    };
+    let capillary = new artery();
+    capillary.hyperlet(listenforping);
+};
+
+let initiateslack = () => {
+
+    let slacki = new bunnyslack({
+        token: secrets.bot,
+        wptoken: secrets.ws,
+        name: 'bunnybear'
+    });
 
     let slacki = new bunnyslack({
         token: secrets.bot,
@@ -65,4 +105,4 @@ let initiate = () => {
     console.log('listening');
 };
 
-initiate();
+// initiate();
