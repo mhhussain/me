@@ -1,24 +1,28 @@
-let pipes = require('amqplib/callback_api');
-
 let secrets = require('./secrets');
 
-function venacava(name) {
-    this.name = name;
-    this.ampq_url = secrets.amqp.url;
-    this.auth = secrets.amqp.auth;
-};
+let pipes = require('amqplib/callback_api');
 
-venacava.prototype.drain = function(callback) {
-    pipes.connect(this.ampq_url, {auth: this.auth}, (err, conn) => {
+
+let drain = (name, callback) => {
+    pipes.connect(secrets.amqp.url, {auth: secrets.amqp.auth}, (err, conn) => {
         conn.createChannel((err, ch) => {
-            let q = this.name;
+            let q = name;
 
             ch.assertQueue(q, {durable: true});
             ch.consume(q, (msg) => {
-                callback(msg.content.toString());
+                callback(ch, msg.content.toString());
             }, {noAck: true});
         });
     });
 };
 
-module.exports = venacava;
+let hyperdrain = (callback) => {
+    pipes.connect(secrets.amqp.url, {auth: secrets.amqp.auth}, (err, conn) => {
+        conn.createChannel(callback);
+    });
+};
+
+module.exports = {
+    drain,
+    hyperdrain
+};
