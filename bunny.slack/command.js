@@ -26,25 +26,18 @@ let ACTIONS = {
         let needle = new vein(pongdirective.name);
         needle.inject(pongdirective);
     },
-    kill: (context) => {
+    pong: (context) => {
+        whisper('begin action');
+        initiateslack();
 
+        return;
     },
-    initialize: (context) => {
+    kill: (context) => {
 
     }
 };
 
-module.exports = {
-    resolveaction
-};
-
-/*let initiateslack = () => {
-
-    let slacki = new bunnyslack({
-        token: secrets.bot,
-        wptoken: secrets.ws,
-        name: 'bunnybear'
-    });
+let initiateslack = () => {
 
     let slacki = new bunnyslack({
         token: secrets.bot,
@@ -53,36 +46,7 @@ module.exports = {
     });
 
     slacki.on('start', () => {
-        // new wake(slacki);
-        /*console.log('im awake.');
-        //slacki.postMessageToUser('moohh91', msg)
-        heart.createEvent(60, (count, last) => {
-            slacki.postMessageToGroup('heart_dev', 'thump');
-        }); /
-    
-        let handle = (resource) => {
-            
-            // console.log(JSON.parse(resource));
-            let blood = JSON.parse(resource);
-            if (blood.directive.type != 'method') {
-                return;
-            }
-    
-            let call =
-                'slacki.' +
-                blood.directive.signature +
-                '(\'' +
-                blood.directive.inputs[0] +
-                '\',\'' +
-                blood.directive.inputs[1] +
-                '\');';
-            
-            //console.log(call);
-            eval(call);
-        };
-    
-        let capillary = new artery(secrets.artery);
-        capillary.let(handle);
+        whisper('slack is up');
     });
     
     // speak
@@ -96,12 +60,25 @@ module.exports = {
         if (message.type != 'message') {
             return;
         }
-    
-        let needle = new vein(secrets.vein);
-        needle.inject(message.text);
+
+        let messagedirective = {
+            name: secrets.vein,
+            designator: 'bunnyheart',
+            designee: 'bunnyslack',
+            directive: {
+                type: 'route',
+                track: 'textmessage',
+                payload: message.text
+            }
+        };
+        let needle = new vein(messagedirective.name);
+        needle.inject(messagedirective);
     });
 
-    console.log('listening');
-};*/
+    console.log('communicating');
+};
 
-// initiate();
+
+module.exports = {
+    resolveaction
+};

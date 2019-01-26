@@ -29,12 +29,11 @@ let VENACAVA_ACTIONS = {
                     channel: ch
                 };
 
-                dispatch(actioncontext);
+                thread(actioncontext);
             }, {noAck: true});
         };
         let capillary = new artery();
         capillary.hyperlet(setupstrings);
-
 
         whisper('reach out');
         let pingdirective = {
@@ -45,21 +44,46 @@ let VENACAVA_ACTIONS = {
                 type: 'ping'
             }
         };
-
         let needle = new vein(pingdirective.name);
         needle.inject(pingdirective);
     }
 };
 
+let thread = (context) => {
+    STRING_HANDLER[context.action](context);
+};
+
 let dispatch = (context) => {
-    STRING_ACTIONS[context.action](context)
-}
+    STRING_ACTIONS[context.action](context);
+};
+
+let STRING_HANDLER = {
+    pong: (context) => {
+        whisper('pong received from ' + context.details.designator);
+
+        dispatch(context);
+    },
+    route: (context) => {
+        whisper('received a routing request');
+        whisper('information: ' + context.details.directive.payload);
+    }
+};
 
 let STRING_ACTIONS = {
     pong: (context) => {
-        whisper('pong received from ' + context.details.designator);
+        let pongdirective = {
+            name: context.details.designator + '_artery',
+            designator: 'bunnyheart',
+            designee: context.details.designator,
+            directive: {
+                type: 'pong'
+            }
+        };
+        let needle = new vein(pongdirective.name);
+        needle.inject(pongdirective);
     }
 };
+
 
 module.exports = {
     construct
