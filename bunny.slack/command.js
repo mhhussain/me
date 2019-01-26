@@ -14,17 +14,11 @@ let resolveaction = (context) => {
 let ACTIONS = {
     ping: (context) => {
         whisper('ping received');
-        let pongdirective = {
-            name: secrets.vein,
-            designator: 'bunnyslack',
-            designee: 'bunnyheart',
-            directive: {
-                type: 'pong'
-            }
-        };
 
-        let needle = new vein(pongdirective.name);
-        needle.inject(pongdirective);
+        vein.inject(DIRECTIVES['pong']);
+    },
+    pong: (context) => {
+        whisper('pong received');
     },
     kill: (context) => {
 
@@ -33,6 +27,17 @@ let ACTIONS = {
 
     }
 };
+
+let DIRECTIVES = {
+    pong: {
+        name: secrets.vein,
+        designator: 'bunnyslack',
+        designee: 'bunnyheart',
+        directive: {
+            type: 'pong'
+        }
+    }
+}
 
 module.exports = {
     resolveaction

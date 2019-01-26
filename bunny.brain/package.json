@@ -1,0 +1,12 @@
+{
+  "name": "bunny.brain",
+  "version": "1.0.0",
+  "description": "bunnybrain",
+  "main": "brain.js",
+  "scripts": {
+    "start": "node brain.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "me",
+  "license": "ISC"
+}
