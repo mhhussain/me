@@ -1,9 +1,10 @@
 let whisper = require('./whisper');
-
-let vein = require('../bunny.circulation/vein');
-let artery = require('../bunny.circulation/artery');
-
 let secrets = require('./secrets');
+let command = require('./command');
+
+let artery = require('../bunny.circulation/artery');
+let vein = require('../bunny.circulation/vein');
+
 
 let begin = () => {
 

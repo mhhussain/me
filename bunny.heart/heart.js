@@ -1,10 +1,41 @@
+let whisper = require('./whisper');
+let secrets = require('./secrets');
+let strings = require('./strings');
+
+let artery = require('../bunny.circulation/artery');
+let vein = require('../bunny.circulation/vein');
+
 let heartbeats = require('heartbeats');
 
-let aorta = require('../bunny.circulation/aorta');
-let venacava = require('../bunny.circulation/venacava');
-let tracks = require('./tracks');
-let secrets = require('./secrets');
+let beat = () => {
 
+    whisper('clear');
+    
+    // who's there
+    let listenforstrings = (err, ch) => {
+        let q = secrets.venacava;
+
+        ch.assertQueue(q, {durable: true});
+        ch.consume(q, (msg) => {
+            let blood = JSON.parse(msg.content.toString());
+
+            let actioncontext = {
+                action: blood.directive.type,
+                details: blood,
+                channel: ch
+            };
+
+            strings.construct(actioncontext)
+        }, {noAck: true});
+    };
+    let diastole = new artery(secrets.venacava);
+    diastole.hyperlet(listenforstrings);
+    whisper('im listening');
+};
+
+beat();
+
+// ****************
 let wake = () => {
     
     let pull = new venacava('bunny.venacava');
