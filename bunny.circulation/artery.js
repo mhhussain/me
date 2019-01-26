@@ -22,4 +22,11 @@ artery.prototype.let = function(callback) {
     });
 };
 
+artery.prototype.hyperlet = function(callback) {
+    // console.log(this.name);
+    pipes.connect(this.amqp_url, {auth:this.auth}, (err, conn) => {
+        conn.createChannel(callback);
+    });
+};
+
 module.exports = artery;

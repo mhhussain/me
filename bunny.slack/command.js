@@ -1,11 +1,50 @@
+let whisper = require('./whisper');
+let secrets = require('./secrets');
 let bunnyslack = require('./bunnyslack');
-let heartbeats = require('heartbeats');
+
 let vein = require('../bunny.circulation/vein');
 let artery = require('../bunny.circulation/artery');
 
-let secrets = require('./secrets');
+let heartbeats = require('heartbeats');
 
-let initiate = () => {
+let resolveaction = (context) => {
+    ACTIONS[context.action](context);
+};
+
+let ACTIONS = {
+    ping: (context) => {
+        whisper('ping received');
+        let pongdirective = {
+            name: secrets.vein,
+            designator: 'bunnyslack',
+            designee: 'bunnyheart',
+            directive: {
+                type: 'pong'
+            }
+        };
+
+        let needle = new vein(pongdirective.name);
+        needle.inject(pongdirective);
+    },
+    kill: (context) => {
+
+    },
+    initialize: (context) => {
+
+    }
+};
+
+module.exports = {
+    resolveaction
+};
+
+/*let initiateslack = () => {
+
+    let slacki = new bunnyslack({
+        token: secrets.bot,
+        wptoken: secrets.ws,
+        name: 'bunnybear'
+    });
 
     let slacki = new bunnyslack({
         token: secrets.bot,
@@ -19,7 +58,7 @@ let initiate = () => {
         //slacki.postMessageToUser('moohh91', msg)
         heart.createEvent(60, (count, last) => {
             slacki.postMessageToGroup('heart_dev', 'thump');
-        });*/
+        }); /
     
         let handle = (resource) => {
             
@@ -63,6 +102,6 @@ let initiate = () => {
     });
 
     console.log('listening');
-};
+};*/
 
-initiate();
+// initiate();
