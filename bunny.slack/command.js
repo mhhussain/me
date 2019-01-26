@@ -1,3 +1,5 @@
+let { whisper } = require('./whisper');
+
 let bunnyslack = require('./bunnyslack');
 let heartbeats = require('heartbeats');
 let vein = require('../bunny.circulation/vein');
@@ -5,39 +7,34 @@ let artery = require('../bunny.circulation/artery');
 
 let secrets = require('./secrets');
 
-let begin = () => {
-
-    // send begin request
-    let requestheartstrings = () => {
-        return {
-            request: 'ping',
-            name: 'bunnyslack'
-        };
-    };
-    let needle = new vein(secrets.venacava);
-    needle.inject(JSON.stringify(requestheartstrings()));
-
-    // listen for ping
-    let listenforping = (err, ch) => {
-        let q = secrets.artery;
-
-        ch.assertQueue(q, {durable: true});
-        ch.consume(q, (msg) => {
-            let blood = JSON.parse(msg.content.toString());
-
-            if (blood.directive.type === 'ping') {
-
-                initiateslack();
-                let needle = new vein(secrets.vein);
-                needle.inject('pong');
-
-                ch.close();
-            }
-        }, {noAck: true});
-    };
-    let capillary = new artery();
-    capillary.hyperlet(listenforping);
+let resolveaction = (context) => {
+    ACTIONS[context.action](context);
 };
+
+let ACTIONS = {
+    ping: (context) => {
+        whisper('ping action');
+        let pingdirective = {
+            name: secrets.vein,
+            designator: 'bunnyslack',
+            designee: 'bunnyheart',
+            directive: {
+                type: 'pong'
+            }
+        };
+
+        let needle = new vein(pingdirective.name);
+        needle.inject(pingdirective);
+    },
+    kill: (context) => {
+
+    },
+    initialize: (context) => {
+
+    }
+};
+
+module.exports = resolveaction;
 
 let initiateslack = () => {
 

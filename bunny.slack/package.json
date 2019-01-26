@@ -4,12 +4,13 @@
   "description": "bunnyslack",
   "main": "injector.js",
   "scripts": {
-    "start": "node injector.js",
+    "start": "node begin.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "me",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.5.3",
     "heartbeats": "^5.0.1",
     "lodash": "^4.17.11",
     "slackbots": "^1.2.0"

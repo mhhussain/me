@@ -15,7 +15,7 @@ vein.prototype.inject = function(resource) {
             let q = this.name;
 
             ch.assertQueue(q, {durable: true});
-            ch.sendToQueue(q, new Buffer(resource), {persistent: true});
+            ch.sendToQueue(q, new Buffer(JSON.stringify(resource)), {persistent: true});
         });
     });
 };
