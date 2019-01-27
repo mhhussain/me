@@ -15,41 +15,47 @@ let ACTIONS = {
     ping: (context) => {
         whisper('ping received');
 
-        vein.inject(DIRECTIVES['pong']);
+        vein.inject(DIRECTIVES['pong']());
     },
     pong: (context) => {
         whisper('pong received');
+        initiateslack();
     },
     kill: (context) => {
-
-    },
-    initialize: (context) => {
 
     }
 };
 
 let DIRECTIVES = {
-    pong: {
-        name: secrets.vein,
-        designator: 'bunnyslack',
-        designee: 'bunnyheart',
-        directive: {
-            type: 'pong'
-        }
+    pong: () => {
+        return {
+            name: secrets.vein,
+            designator: 'bunnyslack',
+            designee: 'bunnyheart',
+            directive: {
+                type: 'pong'
+            }
+        };
+    },
+    slackmessage: (msg) => {
+        return {
+            name: secrets.vein,
+            designator: 'bunnyheart',
+            designee: 'bunnyslack',
+            directive: {
+                type: 'route',
+                track: 'textmessage',
+                payload: msg
+            }
+        };
     }
-}
+};
 
 module.exports = {
     resolveaction
 };
 
-/*let initiateslack = () => {
-
-    let slacki = new bunnyslack({
-        token: secrets.bot,
-        wptoken: secrets.ws,
-        name: 'bunnybear'
-    });
+let initiateslack = () => {
 
     let slacki = new bunnyslack({
         token: secrets.bot,
@@ -58,36 +64,7 @@ module.exports = {
     });
 
     slacki.on('start', () => {
-        // new wake(slacki);
-        /*console.log('im awake.');
-        //slacki.postMessageToUser('moohh91', msg)
-        heart.createEvent(60, (count, last) => {
-            slacki.postMessageToGroup('heart_dev', 'thump');
-        }); /
-    
-        let handle = (resource) => {
-            
-            // console.log(JSON.parse(resource));
-            let blood = JSON.parse(resource);
-            if (blood.directive.type != 'method') {
-                return;
-            }
-    
-            let call =
-                'slacki.' +
-                blood.directive.signature +
-                '(\'' +
-                blood.directive.inputs[0] +
-                '\',\'' +
-                blood.directive.inputs[1] +
-                '\');';
-            
-            //console.log(call);
-            eval(call);
-        };
-    
-        let capillary = new artery(secrets.artery);
-        capillary.let(handle);
+        whisper('slack is up');
     });
     
     // speak
@@ -101,12 +78,13 @@ module.exports = {
         if (message.type != 'message') {
             return;
         }
-    
-        let needle = new vein(secrets.vein);
-        needle.inject(message.text);
+
+        vein.inject(DIRECTIVES['slackmessage'](message.text));
     });
 
-    console.log('listening');
-};*/
+    console.log('communicating');
+};
 
-// initiate();
+module.exports = {
+    resolveaction
+};

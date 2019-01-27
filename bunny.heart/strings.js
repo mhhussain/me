@@ -44,7 +44,7 @@ let VEIN_ACTIONS = {
         aorta.pump(pongdirective(context));
     },
     route: (context) => {
-
+        whisper('route message ' +  context.details.directive.payload);
     }
 };
 
