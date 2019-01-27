@@ -2,13 +2,8 @@ let pipes = require('amqplib/callback_api');
 
 let secrets = require('./secrets');
 
-function aorta() {
-    this.amqp_url = secrets.amqp.url;
-    this.auth = secrets.amqp.auth;
-};
-
-aorta.prototype.pump = function(resource) {
-    pipes.connect(this.amqp_url, {auth: this.auth}, (err, conn) => {
+let pump = (resource) => {
+    pipes.connect(secrets.amqp.url, {auth: secrets.amqp.auth}, (err, conn) => {
         conn.createChannel((err, ch) => {
             let q = resource.name;
 
@@ -20,4 +15,6 @@ aorta.prototype.pump = function(resource) {
     });
 };
 
-module.exports = aorta;
+module.exports = {
+    pump
+};

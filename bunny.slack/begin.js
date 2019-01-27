@@ -10,39 +10,33 @@ let begin = () => {
 
     whisper('im up');
 
-    // listen to heart
-    let listenforping = (err, ch) => {
-        let q = secrets.artery;
-
-        ch.assertQueue(q, {durable: true});
-        ch.consume(q, (msg) => {
-            let blood = JSON.parse(msg.content.toString());
-
-            let actioncontext = {
-                action: blood.directive.type,
-                details: blood,
-                channel: ch
-            };
-
-            command.resolveaction(actioncontext);
-
-        }, {noAck: true});
-    };
-    let capillary = new artery();
-    capillary.hyperlet(listenforping);
-    whisper('im listening');
-
-    let requestheartstrings = {
-        name: secrets.venacava,
-        designator: 'bunnyslack',
-        designee: 'bunnyhear',
-        directive: {
-            type: 'heartstrings'
-        }
-    };
-    let needle = new vein(requestheartstrings.name);
+    vein.inject(requestheartstrings);
     whisper('find me');
-    needle.inject(requestheartstrings);
+
+    // listen to heart
+    artery.letting(secrets.artery, listenforping);
+    whisper('im listening');
+};
+
+let requestheartstrings = {
+    name: secrets.venacava,
+    designator: 'bunnyslack',
+    designee: 'bunnyheart',
+    directive: {
+        type: 'heartstrings'
+    }
+};
+
+let listenforping = (ch, msg) => {
+    let blood = JSON.parse(msg);
+
+    let actioncontext = {
+        action: blood.directive.type,
+        details: blood,
+        channel: ch
+    };
+
+    command.resolveaction(actioncontext);
 };
 
 begin();

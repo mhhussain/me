@@ -14,7 +14,21 @@ let resolveaction = (context) => {
 let ACTIONS = {
     ping: (context) => {
         whisper('ping received');
-        let pongdirective = {
+
+        vein.inject(DIRECTIVES['pong']());
+    },
+    pong: (context) => {
+        whisper('pong received');
+        initiateslack();
+    },
+    kill: (context) => {
+
+    }
+};
+
+let DIRECTIVES = {
+    pong: () => {
+        return {
             name: secrets.vein,
             designator: 'bunnyslack',
             designee: 'bunnyheart',
@@ -22,19 +36,23 @@ let ACTIONS = {
                 type: 'pong'
             }
         };
-
-        let needle = new vein(pongdirective.name);
-        needle.inject(pongdirective);
     },
-    pong: (context) => {
-        whisper('begin action');
-        initiateslack();
-
-        return;
-    },
-    kill: (context) => {
-
+    slackmessage: (msg) => {
+        return {
+            name: secrets.vein,
+            designator: 'bunnyheart',
+            designee: 'bunnyslack',
+            directive: {
+                type: 'route',
+                track: 'textmessage',
+                payload: msg
+            }
+        };
     }
+};
+
+module.exports = {
+    resolveaction
 };
 
 let initiateslack = () => {
@@ -61,23 +79,11 @@ let initiateslack = () => {
             return;
         }
 
-        let messagedirective = {
-            name: secrets.vein,
-            designator: 'bunnyheart',
-            designee: 'bunnyslack',
-            directive: {
-                type: 'route',
-                track: 'textmessage',
-                payload: message.text
-            }
-        };
-        let needle = new vein(messagedirective.name);
-        needle.inject(messagedirective);
+        vein.inject(DIRECTIVES['slackmessage'](message.text));
     });
 
     console.log('communicating');
 };
-
 
 module.exports = {
     resolveaction
