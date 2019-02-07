@@ -1,16 +1,42 @@
-let whisper = ('./whisper');
-let secrets = ('./secrets');
+let whisper = require('./whisper');
+let secrets = require('./secrets');
+let command = require('./command');
 
 let artery = require('../bunny.circulation/artery');
 let vein = require('../bunny.circulation/vein');
 
 let insight = () => {
     
-    whisper ('spark of insanity');
+    whisper('spark of insanity');
 
-    // connect to heart
-    
+    vein.inject(requestheartstrings);
+    whisper('find me');
 
+    // listen to heart
+    artery.letting(secrets.artery, stringhandlers);
+    whisper('im listening');
+
+};
+
+let requestheartstrings = {
+    name: secrets.venacava,
+    designator: 'bunnybrain',
+    designee: 'bunnyheart',
+    directive: {
+        type: 'heartstrings'
+    }
+};
+
+let stringhandlers = (ch, msg) => {
+    let blood = JSON.parse(msg);
+
+    let actioncontext = {
+        action: blood.directive.type,
+        details: blood,
+        channel: ch
+    };
+
+    command.resolveaction(actioncontext);
 };
 
 insight();

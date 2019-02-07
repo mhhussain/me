@@ -4,7 +4,7 @@ let secrets = require('./secrets');
 
 pipes.connect(secrets.amqp.url, {auth: secrets.amqp.auth}, (err, conn) => {
     conn.createChannel((err, ch) => {
-        let q = 'textmessage';
+        let q = 'slackmessage_out';
 
         ch.assertQueue(q, {durable: true});
         ch.consume(q, (msg) => {

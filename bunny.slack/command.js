@@ -37,19 +37,20 @@ let DIRECTIVES = {
             }
         };
     },
-    slackmessage: (msg) => {
+    slackmessage: (user, msg) => {
         return {
             name: secrets.vein,
-            designator: 'bunnyheart',
-            designee: 'bunnyslack',
+            designator: 'bunnyslack',
+            designee: 'bunnyheart',
             directive: {
                 type: 'route',
                 routedirective: {
                     name: 'textmessage',
-                    designator: 'textmessage',
-                    designee: 'bunnyslack',
+                    designator: 'bunnyslack',
+                    designee: 'textmessage',
                     directive: {
                         type: 'input',
+                        sender: user,
                         payload: msg
                     }
                 }
@@ -82,7 +83,7 @@ let initiateslack = () => {
             return;
         }
 
-        vein.inject(DIRECTIVES['slackmessage'](message.text));
+        vein.inject(DIRECTIVES['slackmessage'](message.user, message.text));
     });
 
     console.log('communicating');
