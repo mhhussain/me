@@ -58,10 +58,6 @@ let DIRECTIVES = {
     }
 };
 
-module.exports = {
-    resolveaction
-};
-
 let initiateslack = () => {
 
     let slacki = new bunnyslack({
