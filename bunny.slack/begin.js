@@ -14,7 +14,7 @@ let begin = () => {
     whisper('find me');
 
     // listen to heart
-    artery.letting(secrets.artery, listenforping);
+    artery.letting(secrets.artery, stringshandlers);
     whisper('im listening');
 };
 
@@ -27,7 +27,7 @@ let requestheartstrings = {
     }
 };
 
-let listenforping = (ch, msg) => {
+let stringshandlers = (ch, msg) => {
     let blood = JSON.parse(msg);
 
     let actioncontext = {

@@ -1,5 +1,6 @@
 let whisper = require('./whisper');
 let secrets = require('./secrets');
+let heartdirectives = require('./heartdirectives');
 
 let aorta = require('../bunny.circulation/aorta');
 let venacava = require('../bunny.circulation/venacava');
@@ -25,49 +26,26 @@ let VENACAVA_ACTIONS = {
                 channel: ch
             };
 
-            dispatch(actioncontext);
+            heartdirectives.dispatch(actioncontext);
         };
         venacava.drain(context.details.designator + '_vein', setupstrings);
 
         whisper('reach out');
-        aorta.pump(pingdirective(context));
+        aorta.pump(DIRECTIVES['ping'](context));
     }
 };
 
-let dispatch = (context) => {
-    VEIN_ACTIONS[context.action](context);
-};
-
-let VEIN_ACTIONS = {
-    pong: (context) => {
-        whisper('pong received from ' + context.details.designator);
-        aorta.pump(pongdirective(context));
-    },
-    route: (context) => {
-        whisper('route message ' +  context.details.directive.payload);
+let DIRECTIVES = {
+    ping: (context) => {
+        return {
+            name: context.details.designator + '_artery',
+            designator: secrets.me,
+            designee: context.details.designator,
+            directive: {
+                type: 'ping'
+            }
+        };
     }
-};
-
-let pingdirective = (context) => {
-    return {
-        name: context.details.designator + '_artery',
-        designator: secrets.me,
-        designee: context.details.designator,
-        directive: {
-            type: 'ping'
-        }
-    };
-};
-
-let pongdirective = (context) => {
-    return {
-        name: context.details.designator + '_artery',
-        designator: secrets.me,
-        designee: context.details.designator,
-        directive: {
-            type: 'pong'
-        }
-    };
 };
 
 module.exports = {

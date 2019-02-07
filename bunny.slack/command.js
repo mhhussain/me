@@ -22,7 +22,7 @@ let ACTIONS = {
         initiateslack();
     },
     kill: (context) => {
-
+        whisper('kill command received');
     }
 };
 
@@ -44,8 +44,15 @@ let DIRECTIVES = {
             designee: 'bunnyslack',
             directive: {
                 type: 'route',
-                track: 'textmessage',
-                payload: msg
+                routedirective: {
+                    name: 'textmessage',
+                    designator: 'textmessage',
+                    designee: 'bunnyslack',
+                    directive: {
+                        type: 'input',
+                        payload: msg
+                    }
+                }
             }
         };
     }
