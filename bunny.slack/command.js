@@ -67,11 +67,12 @@ let initiateslack = () => {
         name: 'bunnybear'
     });
 
+    // start message
     slacki.on('start', () => {
         whisper('slack is up');
     });
     
-    // speak
+    // on input
     slacki.on('message', (message) => {
     
         
@@ -85,8 +86,17 @@ let initiateslack = () => {
 
         vein.inject(DIRECTIVES['slackmessage'](message.user, message.text));
     });
-
     console.log('communicating');
+
+    // on output
+    let outputhandler = (ch, msg) => {
+        let blood = JSON.parse(msg);
+
+        if (blood.directive.type === 'output') {
+            slacki.postMessageToUser('moohh91', blood.directive.payload);
+        }
+    };
+    artery.letting(secrets.listeners, outputhandler);
 };
 
 module.exports = {
