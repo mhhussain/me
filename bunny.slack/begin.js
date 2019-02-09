@@ -11,11 +11,10 @@ let begin = () => {
     whisper('im up');
 
     vein.inject(requestheartstrings);
-    whisper('find me');
+    whisper('ping sent to heart');
 
     // listen to heart
     artery.letting(secrets.artery, stringshandlers);
-    whisper('im listening');
 };
 
 let requestheartstrings = {

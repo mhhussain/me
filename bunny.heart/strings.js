@@ -11,12 +11,12 @@ let construct = (context) => {
 
 let VENACAVA_ACTIONS = {
     heartstrings: (context) => {
+        whisper('ping received from ' + context.details.designator);
 
         if (context.details.name != secrets.venacava) {
             return;
         }
 
-        whisper('open ears');
         let setupstrings = (ch, msg) => {
             let blood = JSON.parse(msg);
 
@@ -30,7 +30,6 @@ let VENACAVA_ACTIONS = {
         };
         venacava.drain(context.details.designator + '_vein', setupstrings);
 
-        whisper('reach out');
         aorta.pump(DIRECTIVES['ping'](context));
     }
 };

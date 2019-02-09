@@ -86,7 +86,7 @@ let initiateslack = () => {
 
         vein.inject(DIRECTIVES['slackmessage'](message.user, message.text));
     });
-    console.log('communicating');
+    whisper('slack input ready');
 
     // on output
     let outputhandler = (ch, msg) => {
@@ -97,6 +97,7 @@ let initiateslack = () => {
         }
     };
     artery.letting(secrets.listeners, outputhandler);
+    whisper('slack handler ready');
 };
 
 module.exports = {

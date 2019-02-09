@@ -20,13 +20,8 @@ let ACTIONS = {
     pong: (context) => {
         whisper('pong received');
         
-        whisper('setup understanding handler');
         artery.letting(secrets.handlelisteners.understanding, understand);
-        
-        whisper('setup decision handler');
         artery.letting(secrets.handlelisteners.decision, decide);
-
-        whisper('setup action handler');
         artery.letting(secrets.handlelisteners.action, action);
     },
     kill: (context) => {

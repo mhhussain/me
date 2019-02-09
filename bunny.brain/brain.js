@@ -10,11 +10,9 @@ let insight = () => {
     whisper('spark of insanity');
 
     vein.inject(requestheartstrings);
-    whisper('find me');
 
     // listen to heart
     artery.letting(secrets.artery, stringhandlers);
-    whisper('im listening');
 
 };
 

@@ -14,7 +14,6 @@ let VEIN_ACTIONS = {
         aorta.pump(DIRECTIVES['pong'](context));
     },
     route: (context) => {
-        whisper('route message received');
         aorta.pump(DIRECTIVES['route'](context));
     }
 };
@@ -33,8 +32,6 @@ let DIRECTIVES = {
     route: (context) => {
         let blood = context.details;
         let routedirective = blood.directive.routedirective;
-
-        whisper('routing to target q: ' + routedirective.name);
 
         return routedirective;
     }

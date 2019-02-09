@@ -23,8 +23,6 @@ let beat = () => {
         strings.construct(actioncontext);
     };
     venacava.drain(secrets.venacava, listenforstrings);
-
-    whisper('im listening');
 };
 
 beat();

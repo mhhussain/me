@@ -9,7 +9,7 @@ let whisper = {
 
 module.exports = (quiet, configs) => {
     let supression = secrets.whispersupression;
-    if (supression.supress && supression.level === configs.level) {
+    if (supression.supress) {
         whisper[configs.level](quiet, configs);
     } else if (!supression.supress) {
         console.log(quiet);
