@@ -1,8 +1,7 @@
 let http =  require('http');
 let express = require('express');
+let bodyParser = require('body-parser');
 let MessagingResponse =  require('twilio').twiml.MessagingResponse;
-
-let app =  express();
 
 let responselist = [
     'i only have eyes for you <3',
@@ -48,10 +47,15 @@ let pickresponse = () => {
     return responselist[fate];
 };
 
+let app =  express();
+
+app.use(bodyParser.urlencoded({extended:false}));
+
 app.post('/sms', (req, res) => {
     let twiml = new MessagingResponse();
 
     console.log('incoming message');
+    console.log(req.body);
 
     twiml.message(pickresponse());
 
