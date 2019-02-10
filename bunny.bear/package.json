@@ -11,6 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.5.3",
-    "heartbeats": "^5.0.1"
+    "express": "^4.16.4",
+    "heartbeats": "^5.0.1",
+    "http": "0.0.0",
+    "twilio": "^3.28.0"
   }
 }

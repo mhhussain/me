@@ -1,102 +1,64 @@
-let heartbeats = require('heartbeats');
+let http =  require('http');
+let express = require('express');
+let MessagingResponse =  require('twilio').twiml.MessagingResponse;
 
-let aorta = require('../bunny.circulation/aorta');
-let venacava = require('../bunny.circulation/venacava');
-let tracks = require('./tracks');
-let secrets = require('./secrets');
+let app =  express();
 
-let wake = () => {
-    
-    let pull = new venacava('bunny.venacava');
-    pull.drain(handle);
+let responselist = [
+    'i only have eyes for you <3',
+    'you a-maze me lol',
+    'muffin compares to you',
+    'you rule',
+    'we\'re a perfect match :D',
+    'you\'re an integral (nerddd) part of my life',
+    'you\'re tea-riffic',
+    'i think you\'re SPECtacular',
+    'you have me raptor round your finger',
+    'you take up so mushrooooom in my heart <3',
+    'i a-dooor youuuu',
+    'roses are red foxes are clever i like your butt let me touch it foreverrr',
+    'you\'re my favourite human',
+    'yoda one for me',
+    'you turn me on',
+    'we make a great pear (:',
+    'i like your face',
+    'im happy to be stuck with you!',
+    'im attracted to u',
+    'im bananas for you',
+    'you hot',
+    'youcompleteme',
+    'we\'re stinkin cute together',
+    'you\'re just my blood type',
+    'you rock <3',
+    'i donut know what i would do without you',
+    'i think you\'re dino-mite',
+    'you make my dopamine levels go all sillyyy',
+    'you\'re a real GEM',
+    'you giraffee me crazy',
+    'you\'re one in a melon :D',
+    'you are my constant <3',
+    'perfect chemistry!',
+    'you brighten my day',
+    'we have awesome chemistry <3'
+];
+
+let pickresponse = () => {
+    let fate = Math.ceil(Math.random() * responselist.length);
+
+    return responselist[fate];
 };
 
-let handle = (msg) => {
-    let data = JSON.parse(msg);
+app.post('/sms', (req, res) => {
+    let twiml = new MessagingResponse();
 
-    if (data.request === 'ping') {
-        handleping(data);
-    }
-}
+    console.log('incoming message');
 
-let handleping = (data) => {
-    let pingartery = data.name + '_artery';
-    let pingvein = data.name + '_vein';
-    
-}
+    twiml.message(pickresponse());
 
-let bunnyslack_vein_listener = () => {
-};
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+});
 
-let wakeslack = () => {
-
-    // heart
-    let heart = new heartbeats.createHeart(1000);
-    let systole = new aorta();
-    let diastole = new venacava('bunnyslack_vein');
-    
-    // wake
-    console.log('im awake');
-    systole.pump(wake_directive());
-
-    // heartbeat
-    console.log('clear');
-    heart.createEvent(60, (count, last) => {
-        systole.pump(heartbeat_directive());
-    });
-
-    // speak
-    console.log('listen');
-    let respond = (msg) => {
-        if (msg === 'hello world') {
-            systole.pump(var_message_directive('the world says hello back'));
-        }
-        else {
-            systole.pump(var_message_directive('lorem ipsum'));
-        }
-    };
-    diastole.drain(respond);
-
-    return;
-};
-
-let wake_directive = () => {
-    return {
-        name: 'bunnyslack_artery',
-        designator: 'bunnybear',
-        designee: 'bunnyslack',
-        directive: {
-            type: 'method',
-            signature: 'postMessageToUser',
-            inputs: ['moohh91', 'im awake']
-        }
-    };
-};
-
-let heartbeat_directive = () => {
-    return {
-        name: 'bunnyslack_artery',
-        designator: 'bunnybear',
-        designee: 'bunnyslack',
-        directive: {
-            type: 'method',
-            signature: 'postMessageToGroup',
-            inputs: ['heart_dev', 'thump']
-        }
-    };
-};
-
-let var_message_directive = (msg) => {
-    return {
-        name: 'bunnyslack_artery',
-        designator: 'bunnybear',
-        disignee: 'bunnyslack',
-        directive: {
-            type: 'method',
-            signature: 'postMessageToUser',
-            inputs: ['moohh91', msg]
-        }
-    };
-};
-
-// wake();
+http.createServer(app).listen(1337, () => {
+    console.log('listening on port 1337');
+});
