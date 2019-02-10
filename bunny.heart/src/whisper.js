@@ -1,4 +1,4 @@
-let secrets = require('./secrets');
+let secrets = require('../secrets');
 
 let whisper = {
     'SEVERE': (quiet, configs) => {

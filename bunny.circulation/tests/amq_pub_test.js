@@ -1,7 +1,7 @@
 let pipes = require('amqplib/callback_api');
 
 let url = 'amqp://localhost';
-let name = 'bunnyslack_in'
+let name = 'bunnyheart_venacava';
 
 pipes.connect(url, (err, conn) => {
     conn.createChannel((err, ch) => {

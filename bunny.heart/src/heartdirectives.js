@@ -1,28 +1,24 @@
 let whisper = require('./whisper');
-let secrets = require('./secrets');
 
-let aorta = require('../bunny.circulation/aorta');
-let venacava = require('../bunny.circulation/venacava');
-
-let dispatch = (context) => {
-    VEIN_ACTIONS[context.action](context);
+let dispatch = (context, circulation) => {
+    VEIN_ACTIONS[context.action](context, circulation);
 };
 
 let VEIN_ACTIONS = {
-    pong: (context) => {
+    pong: (context, circulation) => {
         whisper('pong received from ' + context.details.designator);
-        aorta.pump(DIRECTIVES['pong'](context));
+        circulation.pump(DIRECTIVES['pong'](circulation.heartname(), context));
     },
-    route: (context) => {
-        aorta.pump(DIRECTIVES['route'](context));
+    route: (context, circulation) => {
+        circulation.pump(DIRECTIVES['route'](context));
     }
 };
 
 let DIRECTIVES = {
-    pong: (context) => {
+    pong: (designator, context) => {
         return {
             name: context.details.designator + '_artery',
-            designator: secrets.me,
+            designator,
             designee: context.details.designator,
             directive: {
                 type: 'pong'

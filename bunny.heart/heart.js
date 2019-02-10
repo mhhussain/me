@@ -1,6 +1,6 @@
 let whisper = require('./whisper');
 let secrets = require('./secrets');
-let strings = require('./strings');
+let strings = require('./src/strings');
 
 let venacava = require('../bunny.circulation/venacava');
 

@@ -2,40 +2,86 @@ let whisper = require('./whisper');
 let secrets = require('./secrets');
 let command = require('./command');
 
-let artery = require('../bunny.circulation/artery');
-let vein = require('../bunny.circulation/vein');
-
+let heartlink = require('../bunny.heart/heartlink');
 
 let begin = () => {
 
     whisper('im up');
 
-    vein.inject(requestheartstrings);
-    whisper('ping sent to heart');
+    let bunnyheart = new heartlink(secrets.linkname, secrets.heartname, secrets.amqp);
 
-    // listen to heart
-    artery.letting(secrets.artery, stringshandlers);
+    bunnyheart.listenforstrings(ACTIONS);
 };
 
-let requestheartstrings = {
-    name: secrets.venacava,
-    designator: 'bunnyslack',
-    designee: 'bunnyheart',
-    directive: {
-        type: 'heartstrings'
+let ACTIONS = {
+    pong: (context, circulation) => {
+        whisper('pong intercepted');
+        //initiateslack(circulation);
+    },
+    kill: (context) => {
+        whisper('kill command received');
     }
 };
 
-let stringshandlers = (ch, msg) => {
-    let blood = JSON.parse(msg);
-
-    let actioncontext = {
-        action: blood.directive.type,
-        details: blood,
-        channel: ch
-    };
-
-    command.resolveaction(actioncontext);
+let DIRECTIVES = {
+    slackmessage: (user, msg) => {
+        return {
+            type: 'route',
+            routedirective: {
+                name: 'textmessage',
+                designator: 'bunnyslack',
+                designee: 'textmessage',
+                directive: {
+                    type: 'input',
+                    sender: user,
+                    payload: msg
+                }
+            }
+        };
+    }
 };
+
+let initiateslack = (circulation) => {
+
+    let slacki = new bunnyslack({
+        token: secrets.bot,
+        wptoken: secrets.ws,
+        name: 'bunnybear'
+    });
+
+    // start message
+    slacki.on('start', () => {
+        whisper('slack is up');
+    });
+    
+    // on input
+    slacki.on('message', (message) => {
+    
+        
+        if (message.user != 'UC72G0ATD') {
+            return;
+        }
+    
+        if (message.type != 'message') {
+            return;
+        }
+
+        circulation.inject(DIRECTIVES['slackmessage'](message.user, message.text));
+    });
+    whisper('slack input ready');
+
+    // on output
+    let outputhandler = (ch, msg) => {
+        let blood = JSON.parse(msg);
+
+        if (blood.directive.type === 'output') {
+            slacki.postMessageToUser('moohh91', blood.directive.payload);
+        }
+    };
+    // need a hyperlet for incoming.
+    //circulation.let(secrets.listeners, outputhandler);
+    //whisper('slack handler ready');
+};
+
 
 begin();

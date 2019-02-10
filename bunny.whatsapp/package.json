@@ -1,8 +1,8 @@
 {
-  "name": "bunny.heart",
+  "name": "bunny.bear",
   "version": "1.0.0",
-  "description": "bunnyheart",
-  "main": "heart.js",
+  "description": "me",
+  "main": "junction.js",
   "scripts": {
     "start": "node begin.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,6 @@
   "author": "me",
   "license": "ISC",
   "dependencies": {
-    "heartbeats": "^5.0.1",
-    "lodash": "^4.17.11"
+    "twilio": "^3.28.0"
   }
 }
