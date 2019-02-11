@@ -11,7 +11,7 @@ class heartlink {
 
         this.circulation = new linkcirculation(this.linkname, this.heartname, this.mq);
 
-        this.status = 'ready';
+        this.status = 'ready to ping';
     }
 
     getstatus() {
@@ -20,6 +20,7 @@ class heartlink {
 
     listenforstrings(listeners) {
         this.circulation.requeststrings();
+        this.status = 'waiting for ping';
 
         let stringhandler = (ch, msg) => {
             let blood = JSON.parse(msg);
@@ -32,6 +33,7 @@ class heartlink {
 
             if (actioncontext.action === 'ping') {
                 ACTIONS['ping'](actioncontext, this.circulation);
+                this.status = 'ready';
                 return;
             }
             

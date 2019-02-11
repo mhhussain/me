@@ -64,6 +64,19 @@ class linkcirculation {
             });
         });
     };
+
+    hyperlet(name, callback) {
+        pipes.connect(this.mq.url, {auth: this.mq.auth}, (err, conn) => {
+            conn.createChannel((err, ch) => {
+                let q = name;
+
+                ch.assertQueue(q, {durable: true});
+                ch.consume(q, (msg) => {
+                    callback(ch, msg.content.toString());
+                }, {noAck: true});
+            });
+        });
+    };
 };
 
 module.exports = linkcirculation;

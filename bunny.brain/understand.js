@@ -1,8 +1,7 @@
 let whisper = require('./whisper');
 let secrets = require('./secrets');
 
-let vein = require('../bunny.circulation/vein');
-let artery = require('../bunny.circulation/artery');
+let linkcirculation = require('../bunny.circulation/linkcirculation');
 
 let understand = (ch, msg) => {
     let blood = JSON.parse(msg);
@@ -13,25 +12,22 @@ let understand = (ch, msg) => {
         system: blood.designator
     };
 
-    vein.inject(DIRECTIVES['understanding'](understandingcontext));
+    let circulation = new linkcirculation(secrets.linkname, secrets.heartname, secrets.amqp);
+
+    circulation.inject(DIRECTIVES['understanding'](understandingcontext));
 };
 
 let DIRECTIVES = {
     understanding: (context) => {
         return {
-            name: secrets.vein,
-            designator: 'bunnybrain',
-            designee: 'bunnyheart',
-            directive: {
-                type: 'route',
-                routedirective: {
-                    name: 'understandevent',
-                    designator: 'bunnybrain.understand',
-                    designee: 'bunnybrain.decision',
-                    directive: {
-                        type: 'context',
-                        context
-                    }
+            type: 'route',
+            routedirective: {
+                name: 'understandevent',
+                designator: 'bunnybrain.understand',
+                designee: 'bunnybrain.decision',
+                directive: {
+                    type: 'context',
+                    context
                 }
             }
         };

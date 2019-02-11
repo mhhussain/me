@@ -1,7 +1,7 @@
 let whisper = require('./whisper');
 let secrets = require('./secrets');
 
-let vein = require('../bunny.circulation/vein');
+let linkcirculation = require('../bunny.circulation/linkcirculation');
 
 let action = (ch, msg) => {
     let blood = JSON.parse(msg);
@@ -16,24 +16,20 @@ let action = (ch, msg) => {
 let ACTIONS = {
     reply: (context) => {
         let actiondirective = {
-            name: secrets.vein,
-            designator: 'bunnybrain',
-            designee: 'bunnyheart',
-            directive: {
-                type: 'route',
-                routedirective: {
-                    name: context.routeq,
-                    designator: 'bunnybrain.action',
-                    designee: context.designee,
-                    directive: {
-                        type: 'output',
-                        payload: context.reply
-                    }
+            type: 'route',
+            routedirective: {
+                name: context.routeq,
+                designator: 'bunnybrain.action',
+                designee: context.designee,
+                directive: {
+                    type: 'output',
+                    payload: context.reply
                 }
             }
         };
 
-        vein.inject(actiondirective);
+        let circulation = new linkcirculation(secrets.linkname, secrets.heartname, secrets.amqp);
+        circulation.inject(actiondirective);
     }
 };
 

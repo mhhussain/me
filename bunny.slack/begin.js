@@ -1,6 +1,7 @@
 let whisper = require('./whisper');
 let secrets = require('./secrets');
-let command = require('./command');
+
+let bunnyslack = require('./bunnyslack');
 
 let heartlink = require('../bunny.heart/heartlink');
 
@@ -16,7 +17,7 @@ let begin = () => {
 let ACTIONS = {
     pong: (context, circulation) => {
         whisper('pong intercepted');
-        //initiateslack(circulation);
+        initiateslack(circulation);
     },
     kill: (context) => {
         whisper('kill command received');
@@ -79,8 +80,8 @@ let initiateslack = (circulation) => {
         }
     };
     // need a hyperlet for incoming.
-    //circulation.let(secrets.listeners, outputhandler);
-    //whisper('slack handler ready');
+    circulation.hyperlet(secrets.listeners, outputhandler);
+    whisper('slack handler ready');
 };
 
 

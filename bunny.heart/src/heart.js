@@ -30,7 +30,7 @@ class heart {
             };
 
             strings.construct(actioncontext, this.circulation);
-        }
+        };
         this.circulation.drain(this.venacava, listener);
     }
 }
