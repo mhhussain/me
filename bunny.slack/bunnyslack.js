@@ -99,6 +99,24 @@ class bunnyslack extends EventEmitter {
         return this._api('conversations.list');
     }
 
+    getConversationHistory(channel, params) {
+        params = extend({
+            channel: channel
+        }, params || {});
+
+        return this._api('conversations.history', params, false);
+    }
+
+    deleteMessage(channel, ts, params) {
+        params = extend({
+            channel: channel,
+            ts: ts,
+            as_user: true
+        }, params || {});
+
+        return this._api('chat.delete', params, true);
+    }
+
     getChannelHistory(name, params) {
         params = extend({
             channel: name,
@@ -366,6 +384,8 @@ class bunnyslack extends EventEmitter {
             url: 'https://slack.com/api/' + methodName,
             form: this._preprocessParams(params, wpt)
         };
+
+        console.log(data);
 
         return new Vow.Promise(function(resolve, reject) {
 

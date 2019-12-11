@@ -4,15 +4,18 @@
   "description": "bunnyslack",
   "main": "injector.js",
   "scripts": {
-    "start": "node begin.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "me",
   "license": "ISC",
   "dependencies": {
-    "amqplib": "^0.5.3",
-    "heartbeats": "^5.0.1",
-    "lodash": "^4.17.11",
-    "slackbots": "^1.2.0"
+    "aws-sdk": "^2.586.0",
+    "events": "^3.0.0",
+    "extend": "^3.0.2",
+    "lodash": "^4.17.15",
+    "request": "^2.88.0",
+    "vow": "^0.4.20",
+    "ws": "^7.2.0"
   }
 }
