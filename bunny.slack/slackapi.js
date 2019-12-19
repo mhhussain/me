@@ -1,7 +1,7 @@
 let _ = require('lodash');
 let { WebClient } = require('@slack/web-api');
 
-let token = 'xoxp-414980923588-415084010931-854622591555-c684d48a846bc1fb99547513b7e5bf16'
+let token = ''
 
 let web = new WebClient(token);
 
